@@ -1,0 +1,72 @@
+{{ content|safe }}
+<html>
+  <head>
+    <title>Incident Monitoring</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.26.0/axios.min.js" integrity="sha512-bPh3uwgU5qEMipS/VOmRqynnMXGGSRv+72H/N260MQeXZIK4PG48401Bsby9Nq5P5fz7hy5UGNmC/W1Z51h2GQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+      <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  </head>
+  <body>
+  	<div id="app">
+    <h1>Incidents Page</h1>
+    <div class="flex flex-row">
+	   
+	  <div class="basis-4/4">API CALL <br>
+	  	<div class="flex flex-col">
+		  <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+		    <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+		      <div class="overflow-hidden">
+
+			  	<table class="min-w-full table-auto border-collapse border border-slate-500">
+					<thead>
+					<tr>
+					  <th class="border border-slate-600">Position</th>
+					  <th class="border border-slate-600">Incident</th>
+					</tr>
+					</thead>
+					<tbody>
+					<tr  v-for='item in incidents' :key='item.position'>
+						<td class="border border-slate-700">[[ item.position ]]</td>
+						<td class="border border-slate-700">[[ item.incident ]]</td>
+					</tr>
+					</tbody>
+				</table>
+			</div></div></div></div>
+	  </div>
+	</div>
+   </div>
+  </body>
+  <script type="text/javascript">
+  new Vue({
+  		  delimiters: ["[[", "]]"],
+  el: '#app',
+  data () {
+    return {
+      incidents: [],
+      wsIncidents: [],
+      test:'hello'
+    }
+  },
+  methods: {
+  	loadData: function() {
+  		axios
+		.get('/incidents/?format=json')
+		.then(response => 
+			{
+				this.incidents = response.data;
+				console.log(response.data);
+			})
+  	}
+  },
+  mounted () {
+  	this.loadData();
+	this.interval = setInterval(function () {
+		this.loadData();
+	}.bind(this), 2000); 
+  }
+})
+  </script>
+</html>

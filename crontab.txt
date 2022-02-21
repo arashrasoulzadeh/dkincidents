@@ -1,0 +1,1 @@
+$var1 * * * * /script.sh >> /var/log/script.log

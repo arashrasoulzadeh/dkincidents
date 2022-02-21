@@ -1,0 +1,5 @@
+wheel
+Django==4.0.2
+requests
+djangorestframework==3.13.1
+mysqlclient
